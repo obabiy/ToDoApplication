@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import { Button, FormControl, Input, InputLabel } from '@material-ui/core'   // подключаем material ui
 import Todo from './Todo';
 
+import db from './firebase'
 
 function App() {
 
-  const [todos, setTodos] = useState(['first task', 'second task', 'third task'])
+  const [todos, setTodos] = useState([])
   const [input, setInput] = useState('');
-  console.log(input)
+
+  // приложение слушает базу данных и при обновлении подгружает новые данн
+  useEffect(() => {
+    db.collection('todos').onSnapshot(snapshot => {   //слушаем коллекцию todos принимаем все изменения
+      setTodos(snapshot.docs.map(doc => doc.data().task))   //разделяем документы => берем поле todo каждого отдельного документа и записываем в локальный массив
+    })
+  }, []);
 
   const addTodo = (event) => {
     event.preventDefault();       // отключаем перезагрузку страницы после отправки формы 
