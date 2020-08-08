@@ -5,6 +5,7 @@ import { Button, FormControl, Input, InputLabel } from '@material-ui/core'   // 
 import Todo from './Todo';
 
 import db from './firebase'
+import firebase from 'firebase'
 
 function App() {
 
@@ -12,14 +13,21 @@ function App() {
   const [input, setInput] = useState('');
 
   // приложение слушает базу данных и при обновлении подгружает новые данн
-  useEffect(() => {
-    db.collection('todos').onSnapshot(snapshot => {   //слушаем коллекцию todos принимаем все изменения
+  useEffect(() => {       //слушаем коллекцию todos принимаем все изменения
+    db.collection('todos').orderBy('timestamp', 'desc').onSnapshot( snapshot => {  //сортируем по датам задачи  
       setTodos(snapshot.docs.map(doc => doc.data().task))   //разделяем документы => берем поле todo каждого отдельного документа и записываем в локальный массив
+      console.log(snapshot.docs.map(doc => doc.data().task))
     })
   }, []);
 
   const addTodo = (event) => {
     event.preventDefault();       // отключаем перезагрузку страницы после отправки формы 
+    
+    db.collection("todos").add({   // добавляем задание на сервер
+      task: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()  //добавляем к документу время публ. на сервере для сортировки
+    })
+    
     setTodos([...todos, input])  // добавляем(не перезаписываем!) в существующий масив текущее состояние input
     setInput('')                  // очищаем input после добавление задачи
   }
