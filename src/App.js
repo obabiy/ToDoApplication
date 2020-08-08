@@ -15,7 +15,7 @@ function App() {
   // приложение слушает базу данных и при обновлении подгружает новые данн
   useEffect(() => {       //слушаем коллекцию todos принимаем все изменения
     db.collection('todos').orderBy('timestamp', 'desc').onSnapshot( snapshot => {  //сортируем по датам задачи  
-      setTodos(snapshot.docs.map(doc => doc.data().task))   //разделяем документы => берем поле todo каждого отдельного документа и записываем в локальный массив
+      setTodos(snapshot.docs.map(doc => ({id: doc.id, task: doc.data().task})))   //разделяем документы => берем поле todo каждого отдельного документа и записываем в локальный массив
       console.log(snapshot.docs.map(doc => doc.data().task))
     })
   }, []);
@@ -50,7 +50,7 @@ function App() {
       <ul>
         {
           todos.map(todo => (
-            <Todo text = {todo}/>
+            <Todo todo = {todo}/>
           ))
         }
 
