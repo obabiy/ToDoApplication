@@ -4,3 +4,16 @@
     align-items: center;
     font-family: Roboto;
 }
+
+h1{
+    font-size: 4rem;
+    font-family: 'Playfair Display';
+    font-weight: 400;
+}
+
+form{    
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+}

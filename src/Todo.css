@@ -1,3 +1,22 @@
 .todo_list{
     text-align: center;
+    width: 600px;
+}
+
+#list_item{
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    background-color: #fff;
+}
+
+#deleteButton{
+    margin-left: 20px;
+}
+
+#modal Button{
+    margin-top: 30px;
+}
+
+#modal h1{
+    font-size: 2rem;
 }
